@@ -59,13 +59,29 @@ void inserir (ArvB *arv, int valor) {
 		arv->raiz = novo;
 	}
 	else {
-		if (valor < arv->raiz->conteudo){
+		if (valor < arv->raiz->conteudo)
 		   inserirEsquerda(arv->raiz, valor);
-		}
-		else 
+		if (valor > arv->raiz->conteudo)
 		    inserirDireita(arv->raiz, valor);
-			
 	}
+}
+
+No* inserirNovaVersao(No* raiz, int valor){
+  if (raiz == NULL){
+    No *novo = (No*)malloc(sizeof(No));
+		novo->conteudo = valor;
+		novo->esquerda = NULL;
+		novo->direita = NULL;
+    return novo;
+  }
+  else {
+    if (valor < raiz->conteudo)
+      return raiz->esquerda = inserirNovaVersao(raiz->esquerda, valor);
+      
+    if (valor > raiz->conteudo){
+      return raiz->direita = inserirNovaVersao(raiz->direita, valor);
+    }
+  }
 }
 
 void imprimir(No *raiz){
@@ -93,7 +109,8 @@ int main (){
         case 1: 
           printf("\nInforme o valor a ser inserido: \n");
           scanf("%d", &valor);
-          inserir(&arvore, valor); 
+          arv.raiz = inserirNovaVersao(arv.raiz, valor);
+          //inserir(&arvore, valor); 
           printf("Valor inserido!\n");
           break;
         case 2:
