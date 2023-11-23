@@ -1,91 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//struct no
-typedef struct no{
-	int dado;
-	struct no *prox;
-}no;
+typedef struct NO {
+    int dado;
+    struct NO* prox;
+}NO;
 
-//struct pilha
-typedef struct PILHA{
-	struct no *topo;
-}pilha;
+NO* topo;
 
-no *aux;
+void empilhar();
+void desempilhar();
+void imprimirPilha();
 
-pilha* criaPilha(){
-	pilha *p= (pilha *) malloc(sizeof(pilha));
-	if (p!=NULL){
-		p->topo = NULL; //topo da pilha inicia null
-	}
-	return p;
+int main() {
+    topo=NULL;
+    empilhar();
+    empilhar();
+    empilhar();
+    imprimirPilha();
+    return 0;
 }
 
-void empilhar(pilha *p){
-	no *novo = (no *)malloc(sizeof(no));
-	printf("informe o numero a ser inserido:\n");
-	scanf("%d", &novo->dado);
-	novo->prox = p->topo;
-	p->topo = novo;
-	printf("numero inserido na pilha!\n");
+void empilhar(){
+    NO* novo = (NO*)malloc(sizeof(NO));
+    printf("informe o novo dado: ");
+    scanf("%d", &novo->dado);
+    
+    novo->prox = topo;
+    topo = novo;
+
+    printf("Elemento inserido!\n");
 }
 
-void desempilhar(pilha *p) {
-    if (p->topo == NULL) {
-        printf("Pilha vazia!\n");
-    } else {
-        aux = p->topo;
-        printf("%d removido!\n", p->topo->dado);
-        p->topo = p->topo->prox;
+void desempilhar(){
+    if (topo == NULL)
+        printf("Não há elementos na pilha!\n");
+    else {
+        NO* aux;
+        aux = topo;
+        topo = topo->prox;
+        printf("O elemento %d foi removido!\n", aux->dado);
         free(aux);
     }
 }
 
-void consultarPilha(pilha *p){
-    if (p->topo==NULL){
-        printf("Pilha vazia!\n");
-    }
-    else {
-        aux=p->topo;
-        do {
-            printf(" %d \n", aux->dado);
-            aux=aux->prox;
-        }while(aux!=NULL);
-    }
-}
-
-void esvaziarPilha(pilha *p) {
-    if (p->topo==NULL){
-        printf("pilha vazia!\n");
-    }
-    else {
-        aux=p->topo;
-        do{
-            p->topo=p->topo->prox;
-            free(aux);
-            aux=p->topo;
-        }while(aux!=NULL);
-        printf("�Pilha esvaziada!\n");
-    }
-}
-
-
-int main() {
-    int escolha;
-    pilha *p = criaPilha();
-
-    do {
-        printf("1-Empilhar\n2-Desempilhar\n3-Consultar pilha\n4-Esvaziar pilha\n0-Sair\n");
-        scanf("%d", &escolha);
-        switch (escolha){
-            case 1: empilhar(p); break;
-            case 2: desempilhar(p); break;
-            case 3: consultarPilha(p); break;
-            case 4: esvaziarPilha(p); break;
+void imprimirPilha(){
+    if (topo == NULL)
+        printf("A pilha esstá vazia!");
+    else{
+        NO* aux;
+        aux = topo;
+        while(aux!=NULL){
+            printf("Pilha:\n");
+            printf("%d\t", aux->dado);
+            aux = aux->prox;
         }
-    } while (escolha>0);
-
-
-    return 0;
+    }
+    printf("\n");
 }
